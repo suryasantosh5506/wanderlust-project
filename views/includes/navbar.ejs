@@ -3,7 +3,7 @@
     background-color: #fe424d;
     color: #fff;
     border-radius: 25px;
-    padding: 0 1rem 0 1rem;
+    padding: 0 1rem;
   }
 
   .btn-search:hover {
@@ -11,74 +11,145 @@
     color: #fff;
   }
 
-  .btn-search i {
-    display: inline;
-    margin-right: 0.5rem;
-  }
-
   .search-inp {
     border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
-    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Desktop auth links hidden in mobile */
+  @media (max-width: 768px) {
+    .nav-auth-links {
+      display: none !important;
+    }
+
+    .mobile-search {
+      flex-grow: 1;
+      margin: 0 10px;
+    }
+  }
+
+  /* Three dots icon */
+  .more-btn {
+    font-size: 1.7rem;
+    border: none;
+    background: transparent;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .hide-on-scroll {
+    transition: opacity 0.3s ease;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-search {
+      max-width: 55%; /* prevent search box from growing too wide */
+    }
+
+    .mobile-search input {
+      width: 100%;
+    }
   }
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"
-      ><i class="fa-regular fa-compass"></i
-    ></a>
+  <div class="container-fluid d-flex align-items-center">
+    <!-- LEFT: Logo -->
+    <a class="navbar-brand me-2" href="/listings">
+      <i class="fa-regular fa-compass fa-xl"></i>
+    </a>
+
+    <!-- CENTER: Search bar (visible only on mobile) -->
+    <div class="mobile-search d-md-none">
+      <form class="d-flex">
+        <input
+          class="form-control search-inp"
+          type="search"
+          placeholder="Search"
+        />
+        <button class="btn btn-search ms-2">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- RIGHT: 3 dots (only mobile) -->
     <button
-      class="navbar-toggler"
+      class="more-btn d-md-none"
       type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
     >
-      <span class="navbar-toggler-icon"></span>
+      ⋮
     </button>
+
+    <!-- Dropdown Content -->
+    <ul class="dropdown-menu dropdown-menu-end hide-on-scroll">
+      <li>
+        <a class="dropdown-item" href="/listings/new">Airbnb your Home</a>
+      </li>
+
+      <% if (!currUser) { %>
+      <li><a class="dropdown-item" href="/signup">Signup</a></li>
+      <li><a class="dropdown-item" href="/login">Login</a></li>
+      <% } else { %>
+      <li><a class="dropdown-item" href="/logout">Logout</a></li>
+      <% } %>
+    </ul>
+
+    <!-- Desktop Navbar -->
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Explore -->
       <div class="navbar-nav">
         <a class="nav-link" href="/listings">Explore</a>
       </div>
 
-      <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search">
+      <!-- Desktop Search Bar -->
+      <div class="navbar-nav mx-auto d-none d-md-flex">
+        <form class="d-flex">
           <input
             class="form-control me-2 search-inp"
             type="search"
-            placeholder="Search destinations"
+            placeholder="Search listings"
           />
-          <button class="btn btn-search" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>Search
+          <button class="btn btn-search">
+            <i class="fa-solid fa-magnifying-glass"></i> Search
           </button>
         </form>
       </div>
 
-      <div class="navbar-nav ms-auto">
-        <div class="ms-auto">
-          <button
-            class="btn"
-            data-bs-toggle="collapse"
-            data-bs-target="#demoCollapse"
-            style="
-              border-radius: 25px;
-              margin-right: 5px;
-              background-color: #fe424d;
-              color: #fff;
-            "
-          >
-            Toggle Filters
-          </button>
-        </div>
-        <a class="nav-link" href="/listings/new">Airbnbyourhome</a>
-        <% if(!currUser) {%>
-        <!-- currUser is defined in app.js check it -->
-        <a class="nav-link" aria-current="page" href="/signup"><b>Signup</b></a>
+      <!-- Desktop Auth -->
+      <div class="navbar-nav ms-auto nav-auth-links">
+        <a class="nav-link" href="/listings/new">Airbnb your Home</a>
+
+        <% if (!currUser) { %>
+        <a class="nav-link" href="/signup"><b>Signup</b></a>
         <a class="nav-link" href="/login"><b>Login</b></a>
-        <% } %> <% if(currUser) {%>
+        <% } else { %>
         <a class="nav-link" href="/logout"><b>Logout</b></a>
         <% } %>
       </div>
     </div>
   </div>
 </nav>
+
+<script>
+  // Auto hide dropdown on scroll
+  let lastScroll = 0;
+  const dropdown = document.querySelector(".hide-on-scroll");
+
+  window.addEventListener("scroll", () => {
+    let curr = window.scrollY;
+
+    if (curr > lastScroll) {
+      dropdown.style.opacity = "0";
+      dropdown.style.pointerEvents = "none";
+    } else {
+      dropdown.style.opacity = "1";
+      dropdown.style.pointerEvents = "auto";
+    }
+
+    lastScroll = curr;
+  });
+</script>

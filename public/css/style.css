@@ -116,3 +116,17 @@ body {
   padding-left: 0;
   padding-right: 0;
 }
+
+/* Page wrapper for left-right spacing (same as Airbnb) */
+.page-container {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Mobile smaller padding */
+@media (max-width: 768px) {
+  .page-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

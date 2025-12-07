@@ -1,99 +1,91 @@
 <% layout("layouts/boilerplate") %>
+<style>
+  .filters-wrapper {
+    background: #fff;
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid #e3e3e3;
+    position: sticky;
+    top: 65px; 
+    z-index: 5;
+  }
 
-  <style>
-    .filters{
+  .filters {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding: 0.4rem 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter {
+    text-align: center;
+    opacity: 0.7;
+    flex: 0 0 auto;
+    width: 70px;
+  }
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  .filter p {
+    font-size: 0.75rem;
+    margin-top: 3px;
+  }
+
+  /* TAX TOGGLE */
+  .tax-toggle {
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+  }
+
+  /* Desktop layout row for filters + tax toggle */
+  @media (min-width: 768px) {
+    .filters-wrapper {
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .filters {
       flex-wrap: wrap;
-      align-items: center;
+      overflow: visible;
+      gap: 2rem;
     }
+  }
+</style>
 
-    .filter{
-      margin-top: 2rem;
-      text-align: center;
-      margin-right: 2rem;
-      opacity: 0.7;
-    }
+<!-- FILTER BAR -->
+<div class="filters-wrapper">
 
-    .filter:hover{
-      opacity: 1;
-      cursor: pointer;
-    }
+  <div class="filters">
+    <div class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></div>
+    <div class="filter"><i class="fa-solid fa-bed"></i><p>Rooms</p></div>
+    <div class="filter"><i class="fa-solid fa-mountain-city"></i><p>Iconic</p></div>
+    <div class="filter"><i class="fa-solid fa-mountain"></i><p>Mountains</p></div>
+    <div class="filter"><i class="fa-brands fa-fort-awesome"></i><p>Castles</p></div>
+    <div class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></div>
+    <div class="filter"><i class="fa-solid fa-campground"></i><p>Camping</p></div>
+    <div class="filter"><i class="fa-solid fa-cow"></i><p>Farms</p></div>
+    <div class="filter"><i class="fa-regular fa-snowflake"></i><p>Arctic</p></div>
+  </div>
 
-    .filter p{
-      font-size: 0.8rem;
-    }
-
-    .tax-info{
-      display: none;
-    }
-
-    .tax-toggle{
-      border: 1px solid black;
-      border-radius: 1rem;
-      height: 3.5rem;
-      padding: 1rem;
-      margin-left: 5rem;
-      display: flex;
-      align-items: center;
-    }
-  </style>
-
-    
-
-    <div class="filters collapse mt-3" id="demoCollapse">
-      <div class="filter">
-        <div><i class="fa-solid fa-fire"></i></div>
-        <p>Trending</p>
-      </div>
-
-      <div class="filter">
-        <div><i class="fa-solid fa-bed"></i></div>
-        <p>Rooms</p>
-      </div>
-
-      <div class="filter">
-        <div><i class="fa-solid fa-mountain-city"></i></div>
-        <p>Iconic cities</p>
-      </div>
-
-      <div class="filter">
-        <div><i class="fa-solid fa-mountain"></i></div>
-        <p>Mountains</p>
-      </div>     
-      
-      <div class="filter">
-        <div><i class="fa-brands fa-fort-awesome"></i></div>
-        <p>Castles</p>
-      </div>
-
-      <div class="filter">
-        <div><i class="fa-solid fa-person-swimming"></i></div>
-        <p>Amazing pools</p>
-      </div>
-
-      <div class="filter">
-        <div><i class="fa-solid fa-campground"></i></div>
-        <p>Camping</p>
-      </div>     
-      
-      <div class="filter">
-        <div><i class="fa-solid fa-cow"></i></div>
-        <p>Farms</p>
-      </div>
-
-      <div class="filter">
-        <div><i class="fa-regular fa-snowflake"></i></div>
-        <p>Arctic</p>
-      </div>
-
-      <div class="tax-toggle">
-        <div class="form-check-reverse form-switch">
-  <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-  <label class="form-check-label" for="switchCheckDefault">Display total after Taxes</label>
-</div>
-      </div>
-
+  <!-- TAX TOGGLE (Desktop visible, mobile inside row automatically) -->
+  <div class="tax-toggle d-flex align-items-center">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="switchCheckDefault">
+      <label class="form-check-label">Display total after taxes</label>
     </div>
+  </div>
+
+</div>
+
+
+
+  <div class="page-container">
 
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
          <% for(let i=0;i<data.length;i++){ %>
